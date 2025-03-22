@@ -35,6 +35,13 @@ async function handler(requestEvent) {
     default:
       response = BadRequest;
   }
+
+  // Log if BadRequest
+  if (response == BadRequest) {
+    console.error("BadRequest: ");
+    console.error(requestEvent);
+  }
+
   return response;
 }
 
