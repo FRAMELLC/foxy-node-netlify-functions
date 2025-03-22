@@ -191,6 +191,15 @@ function validFoxyRequest(requestEvent) {
   } catch (e) {
     err = 'Payload is not valid JSON.';
   }
+
+  // Print error if exists
+  if (err) {
+    console.error('Request: ');
+    console.error(requestEvent);
+    console.error('Error: ');
+    console.error(err);
+  }
+
   return err;
 }
 
