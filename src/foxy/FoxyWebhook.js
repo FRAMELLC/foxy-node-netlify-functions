@@ -186,18 +186,25 @@ function validFoxyRequest(requestEvent) {
   } else if (!verifyWebhookSignature(requestEvent)) {
     err = 'Forbidden';
   }
-  try {
-    JSON.parse(requestEvent.body);
-  } catch (e) {
-    err = 'Payload is not valid JSON.';
+
+  if (err == false) {
+    try {
+      JSON.parse(requestEvent.body);
+    } catch (e) {
+      err = 'Payload is not valid JSON.';
+    }
   }
 
   // Print error if exists
   if (err) {
-    console.error('Request: ');
-    console.error(requestEvent);
-    console.error('Error: ');
     console.error(err);
+    console.log('Request: ');
+    console.log(requestEvent.method);
+    console.log(requestEvent.headers);
+    console.log(requestEvent.url);
+    console.log(requestEvent.body);
+    console.log(requestEvent.credentials);
+    console.log(requestEvent.destination);
   }
 
   return err;

@@ -14,10 +14,12 @@ const { config } = require("../../../config.js");
  * @returns {Promise<{statusCode: number, body: string}>} the response object
  */
 async function handler(requestEvent) {
-  // Validation
+  // Validate environment variables are set, sends 503 if not set
   if (!validation.configuration.validate()) {
     return validation.configuration.response();
   }
+  // Validate and authenticate that input is valid
+  // Otherwise, sends 200, Bad Request, and prints request in logs
   const inputError = validation.input.getError(requestEvent); 
   if (inputError) {
     return validation.input.response(inputError);
@@ -33,6 +35,7 @@ async function handler(requestEvent) {
       response = webhook.transactionCreated(body);
       break;
     default:
+      // If transaction not found, sends 200, Bad Request and logs
       response = BadRequest;
   }
 
@@ -75,12 +78,12 @@ const validation = {
   input: {
     errorMessage: "Bad Request",
     getError: FoxyWebhook.validFoxyRequest,
-    response: (message) => webhook.response(message, 400),
+    response: (message) => webhook.response(message, 200),
   }
 
 };
 
-const BadRequest = webhook.response('Bad Request', 400);
+const BadRequest = webhook.response('Bad Request', 200);
 
 module.exports = {
   handler
