@@ -48,8 +48,9 @@ async function handler(requestEvent) {
 
   // Log if BadRequest
   if (response == BadRequest) {
+    console.log(requestEvent);
+    console.error("event: " + foxyEvent);
     console.error("BadRequest: ");
-    console.error(requestEvent);
   }
 
   return response;
