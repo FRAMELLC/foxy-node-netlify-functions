@@ -197,14 +197,14 @@ function validFoxyRequest(requestEvent) {
 
   // Print error if exists
   if (err) {
-    console.error(err);
     console.log('Request: ');
-    console.log(requestEvent.method);
-    console.log(requestEvent.headers);
-    console.log(requestEvent.url);
-    console.log(requestEvent.body);
     console.log(requestEvent.credentials);
     console.log(requestEvent.destination);
+    console.log(requestEvent.url);
+    console.log(requestEvent.headers);
+    console.log(requestEvent.body);
+    console.log(requestEvent.httpMethod);
+    console.error(err);
   }
 
   return err;
