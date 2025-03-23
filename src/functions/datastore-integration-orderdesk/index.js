@@ -18,6 +18,13 @@ async function handler(requestEvent) {
   if (!validation.configuration.validate()) {
     return validation.configuration.response();
   }
+
+  // Don't attempt validate GET requests, just return
+  if (requestEvent.httpMethod === 'GET') {
+    console.log("Responded to GET request and returned 200")
+    return BadRequest;
+  }
+
   // Validate and authenticate that input is valid
   // Otherwise, sends 200, Bad Request, and prints request in logs
   const inputError = validation.input.getError(requestEvent); 
