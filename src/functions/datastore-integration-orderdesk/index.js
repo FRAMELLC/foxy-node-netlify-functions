@@ -22,11 +22,11 @@ async function handler(requestEvent) {
   // Don't attempt validate GET requests, just return
   if (requestEvent.httpMethod === 'GET') {
     console.log("Responded to GET request and returned 200")
-    return BadRequest;
+    return GetRequest;
   }
 
   // Validate and authenticate that input is valid
-  // Otherwise, sends 200, Bad Request, and prints request in logs
+  // Otherwise, sends 200, error message, and prints request in logs
   const inputError = validation.input.getError(requestEvent); 
   if (inputError) {
     return validation.input.response(inputError);
@@ -83,13 +83,14 @@ const validation = {
     },
   },
   input: {
-    errorMessage: "Bad Request",
+    errorMessage: "Default Bad Request",
     getError: FoxyWebhook.validFoxyRequest,
     response: (message) => webhook.response(message, 200),
   }
 
 };
 
+const GetRequest = webhook.response('GET Request', 200);
 const BadRequest = webhook.response('Bad Request', 200);
 
 module.exports = {
